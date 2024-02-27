@@ -3,6 +3,7 @@ import Colors from "../Constant/Color";
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {Text, useColorScheme, View} from "react-native";
 import Fontisto from "react-native-vector-icons/Fontisto";
+import ChatScreen from "../Screen/ChatScreen";
 
 function HomeScreen() {
     return (
@@ -48,7 +49,7 @@ export default function MainTabNavigator() {
                 tabBarIcon: ({color}) => <Fontisto name="camera" color={color} size={18}/>,
                 tabBarLabel: () => null
             }}/>
-            <Tab.Screen name="Chat" component={SettingsScreen}/>
+            <Tab.Screen name="Chat" component={ChatScreen}/>
             <Tab.Screen name="Status" component={SettingsScreen}/>
             <Tab.Screen name="Calls" component={SettingsScreen}/>
         </Tab.Navigator>
