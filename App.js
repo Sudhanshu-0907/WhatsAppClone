@@ -4,6 +4,10 @@ import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import Colors from './Constant/Color';
 import StackNavigator from "./navigation/StackNavigator";
+import {Amplify} from 'aws-amplify';
+import amplifyconfig from './src/amplifyconfiguration.json';
+
+Amplify.configure(amplifyconfig);
 
 
 export default function App() {
