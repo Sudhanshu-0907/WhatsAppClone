@@ -8,6 +8,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import ChatRoomScreen from "../Screen/ChatRoomScreen";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import ContactScreen from "../Screen/ConctactScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -67,10 +68,10 @@ export default function StackNavigator() {
                     animation: 'slide_from_right'
                 })}
             />
-            {/*<Stack.Screen*/}
-            {/*    name="Contacts"*/}
-            {/*    component={ContactsScreen}*/}
-            {/*/>*/}
+            <Stack.Screen
+                name="Contacts"
+                component={ContactScreen}
+            />
             {/*<Stack.Screen name="NotFound" component={NotFoundScreen} options={{title: 'Oops!'}}/>*/}
         </Stack.Navigator>
     )
