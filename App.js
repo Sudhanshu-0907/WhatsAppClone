@@ -6,11 +6,16 @@ import Colors from './Constant/Color';
 import StackNavigator from "./navigation/StackNavigator";
 import {Amplify} from 'aws-amplify';
 import amplifyconfig from './src/amplifyconfiguration.json';
+import {
+  withAuthenticator,
+  useAuthenticator
+} from '@aws-amplify/ui-react-native';
+
 
 Amplify.configure(amplifyconfig);
 
 
-export default function App() {
+export function App() {
     return (
         <NavigationContainer>
             <StatusBar
@@ -23,3 +28,4 @@ export default function App() {
         </NavigationContainer>
     );
 }
+export default withAuthenticator(App);

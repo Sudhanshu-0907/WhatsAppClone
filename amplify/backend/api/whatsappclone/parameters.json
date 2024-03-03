@@ -1,0 +1,12 @@
+{
+  "AppSyncApiName": "whatsappclone",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authwhatsappclone98197c8c",
+      "Outputs.UserPoolId"
+    ]
+  },
+  "AuthModeLastUpdated": "2024-03-03T21:10:48.575Z"
+}

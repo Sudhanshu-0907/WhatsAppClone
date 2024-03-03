@@ -1,0 +1,23 @@
+type ChatRoom @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  Messages: [Message] @hasMany(indexName: "byChatRoom", fields: ["id"])
+  users: [User] @manyToMany(relationName: "UserChatRoom")
+  Message: Message @hasOne
+}
+
+type Message @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  text: String
+  chatroomID: ID! @index(name: "byChatRoom")
+  userID: ID! @index(name: "byUser")
+}
+
+type User @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  name: String!
+  imageUri: String
+  status: String
+  Messages: [Message] @hasMany(indexName: "byUser", fields: ["id"])
+  ChatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRoom")
+}
+ 
