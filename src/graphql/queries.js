@@ -30,7 +30,7 @@ export const getChatRoom = /* GraphQL */ `
         nextToken
         __typename
       }
-      Message {
+      LastMessage {
         id
         text
         chatroomID
@@ -41,7 +41,7 @@ export const getChatRoom = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      chatRoomMessageId
+      chatRoomLastMessageId
       __typename
     }
   }
@@ -63,7 +63,7 @@ export const listChatRooms = /* GraphQL */ `
           nextToken
           __typename
         }
-        Message {
+        LastMessage {
           id
           text
           chatroomID
@@ -74,7 +74,7 @@ export const listChatRooms = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        chatRoomMessageId
+        chatRoomLastMessageId
         __typename
       }
       nextToken
@@ -179,8 +179,8 @@ export const getUser = /* GraphQL */ `
     getUser(id: $id) {
       id
       name
-      imageUri
       status
+      image
       Messages {
         items {
           id
@@ -222,8 +222,8 @@ export const listUsers = /* GraphQL */ `
       items {
         id
         name
-        imageUri
         status
+        image
         Messages {
           nextToken
           __typename
@@ -257,7 +257,7 @@ export const getUserChatRoom = /* GraphQL */ `
           nextToken
           __typename
         }
-        Message {
+        LastMessage {
           id
           text
           chatroomID
@@ -268,14 +268,14 @@ export const getUserChatRoom = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        chatRoomMessageId
+        chatRoomLastMessageId
         __typename
       }
       user {
         id
         name
-        imageUri
         status
+        image
         Messages {
           nextToken
           __typename
@@ -309,14 +309,14 @@ export const listUserChatRooms = /* GraphQL */ `
           id
           createdAt
           updatedAt
-          chatRoomMessageId
+          chatRoomLastMessageId
           __typename
         }
         user {
           id
           name
-          imageUri
           status
+          image
           createdAt
           updatedAt
           __typename
@@ -353,14 +353,14 @@ export const userChatRoomsByChatRoomId = /* GraphQL */ `
           id
           createdAt
           updatedAt
-          chatRoomMessageId
+          chatRoomLastMessageId
           __typename
         }
         user {
           id
           name
-          imageUri
           status
+          image
           createdAt
           updatedAt
           __typename
@@ -397,14 +397,14 @@ export const userChatRoomsByUserId = /* GraphQL */ `
           id
           createdAt
           updatedAt
-          chatRoomMessageId
+          chatRoomLastMessageId
           __typename
         }
         user {
           id
           name
-          imageUri
           status
+          image
           createdAt
           updatedAt
           __typename

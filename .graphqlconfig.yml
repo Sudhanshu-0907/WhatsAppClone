@@ -1,6 +1,6 @@
 projects:
-  whatsappclone:
-    schemaPath: amplify/backend/api/whatsappclone/build/schema.graphql
+  WhastsAppClone:
+    schemaPath: amplify/backend/api/WhastsAppClone/build/schema.graphql
     includes:
       - src/graphql/**/*.js
     excludes:

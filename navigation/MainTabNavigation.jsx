@@ -1,12 +1,21 @@
 import React from "react";
 import Colors from "../Constant/Color";
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {Text, useColorScheme, View} from "react-native";
+import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import ChatScreen from "../Screen/ChatScreen";
+import { signOut } from 'aws-amplify/auth';
+
+async function handleSignOut() {
+  try {
+    await signOut();
+  } catch (error) {
+    console.log('error signing out: ', error);
+  }
+}
 
 function HomeScreen() {
-    return (
+  return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <Text>Home!</Text>
         </View>
@@ -14,9 +23,12 @@ function HomeScreen() {
 }
 
 function SettingsScreen() {
+
     return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text>Settings!</Text>
+            <TouchableOpacity onPress={handleSignOut}>
+              <Text>SignOut</Text>
+            </TouchableOpacity>
         </View>
     );
 }

@@ -1,15 +1,7 @@
 {
   "api": {
-    "whatsappclone": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "whatsappclone98197c8c"
-        }
-      ],
+    "WhastsAppClone": {
+      "dependsOn": [],
       "output": {
         "authConfig": {
           "additionalAuthenticationProviders": [
@@ -18,10 +10,11 @@
             }
           ],
           "defaultAuthentication": {
-            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-              "userPoolId": "authwhatsappclone98197c8c"
-            }
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 30,
+              "description": "api key description"
+            },
+            "authenticationType": "API_KEY"
           }
         }
       },
@@ -30,7 +23,7 @@
     }
   },
   "auth": {
-    "whatsappclone98197c8c": {
+    "WhastsAppClone": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -40,13 +33,13 @@
         ],
         "passwordProtectionSettings": {
           "passwordPolicyCharacters": [],
-          "passwordPolicyMinLength": 8
+          "passwordPolicyMinLength": 6
         },
-        "signupAttributes": [
+        "signupAttributes": [],
+        "socialProviders": [],
+        "usernameAttributes": [
           "EMAIL"
         ],
-        "socialProviders": [],
-        "usernameAttributes": [],
         "verificationMechanisms": [
           "EMAIL"
         ]

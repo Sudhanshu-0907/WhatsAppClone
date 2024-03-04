@@ -30,7 +30,7 @@ export const onCreateChatRoom = /* GraphQL */ `
         nextToken
         __typename
       }
-      Message {
+      LastMessage {
         id
         text
         chatroomID
@@ -41,7 +41,7 @@ export const onCreateChatRoom = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      chatRoomMessageId
+      chatRoomLastMessageId
       __typename
     }
   }
@@ -75,7 +75,7 @@ export const onUpdateChatRoom = /* GraphQL */ `
         nextToken
         __typename
       }
-      Message {
+      LastMessage {
         id
         text
         chatroomID
@@ -86,7 +86,7 @@ export const onUpdateChatRoom = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      chatRoomMessageId
+      chatRoomLastMessageId
       __typename
     }
   }
@@ -120,7 +120,7 @@ export const onDeleteChatRoom = /* GraphQL */ `
         nextToken
         __typename
       }
-      Message {
+      LastMessage {
         id
         text
         chatroomID
@@ -131,7 +131,7 @@ export const onDeleteChatRoom = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      chatRoomMessageId
+      chatRoomLastMessageId
       __typename
     }
   }
@@ -180,8 +180,8 @@ export const onCreateUser = /* GraphQL */ `
     onCreateUser(filter: $filter) {
       id
       name
-      imageUri
       status
+      image
       Messages {
         items {
           id
@@ -218,8 +218,8 @@ export const onUpdateUser = /* GraphQL */ `
     onUpdateUser(filter: $filter) {
       id
       name
-      imageUri
       status
+      image
       Messages {
         items {
           id
@@ -256,8 +256,8 @@ export const onDeleteUser = /* GraphQL */ `
     onDeleteUser(filter: $filter) {
       id
       name
-      imageUri
       status
+      image
       Messages {
         items {
           id
@@ -307,7 +307,7 @@ export const onCreateUserChatRoom = /* GraphQL */ `
           nextToken
           __typename
         }
-        Message {
+        LastMessage {
           id
           text
           chatroomID
@@ -318,14 +318,14 @@ export const onCreateUserChatRoom = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        chatRoomMessageId
+        chatRoomLastMessageId
         __typename
       }
       user {
         id
         name
-        imageUri
         status
+        image
         Messages {
           nextToken
           __typename
@@ -362,7 +362,7 @@ export const onUpdateUserChatRoom = /* GraphQL */ `
           nextToken
           __typename
         }
-        Message {
+        LastMessage {
           id
           text
           chatroomID
@@ -373,14 +373,14 @@ export const onUpdateUserChatRoom = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        chatRoomMessageId
+        chatRoomLastMessageId
         __typename
       }
       user {
         id
         name
-        imageUri
         status
+        image
         Messages {
           nextToken
           __typename
@@ -417,7 +417,7 @@ export const onDeleteUserChatRoom = /* GraphQL */ `
           nextToken
           __typename
         }
-        Message {
+        LastMessage {
           id
           text
           chatroomID
@@ -428,14 +428,14 @@ export const onDeleteUserChatRoom = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        chatRoomMessageId
+        chatRoomLastMessageId
         __typename
       }
       user {
         id
         name
-        imageUri
         status
+        image
         Messages {
           nextToken
           __typename

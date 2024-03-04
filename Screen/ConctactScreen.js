@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {FlatList, View} from "react-native";
-import users from '../data/Users';
+// import users from '../data/Users';
 import ContactListItem from '../Components/ContactListItem';
 import { generateClient } from "aws-amplify/api";
-import { listUsers, getUser } from "../src/graphql/queries";
+import { listUsers } from "../src/graphql/queries";
 
 const client = generateClient()
 
@@ -17,8 +17,7 @@ const ContactScreen = () => {
         const allUsers = await client.graphql({
           query: listUsers
         });
-        setusers(allUsers.data)
-        console.log(allUsers.data);
+        setusers(allUsers.data.listUsers.items)
 
       }
       fetchData()
@@ -30,7 +29,7 @@ const ContactScreen = () => {
         <View>
             <FlatList
                 style={{width: '100%'}}
-                data={users}
+                data={user}
                 renderItem={({item}) => <ContactListItem user={item}/>}
                 keyExtractor={(item) => item.id}
             />
