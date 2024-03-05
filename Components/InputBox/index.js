@@ -9,17 +9,17 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { listChatRooms } from "../../Screen/ChatScreen/query";
 import { generateClient } from "aws-amplify/api";
 import { fetchUserAttributes } from "aws-amplify/auth";
-import {createMessage} from  '../../src/graphql/mutations'
+import {createMessage,updateChatRoom} from  '../../src/graphql/mutations'
 const client = generateClient();
 
-const InputBox = (props) => {
+const InputBox = ({ chatRoom }) => {
 
     const [message, setMessage] = useState('');
     const onSend =async ()=>{
 
         const authUser = await fetchUserAttributes();
         const newMessage = {
-            chatroomID: props.chatRoomId,
+            chatroomID: chatRoom.id,
             text:message,
             userID: authUser.sub,
         };
@@ -31,6 +31,17 @@ const InputBox = (props) => {
             }
         }))
         setMessage("");
+
+        console.log(newMessageData);
+
+        await client.graphql(({
+            query:updateChatRoom,
+            variables:{
+                input: {id: chatRoom.id, chatRoomLastMessageId: newMessageData.data.createMessage.id}
+            }
+        }))
+
+
     }
 
     return (

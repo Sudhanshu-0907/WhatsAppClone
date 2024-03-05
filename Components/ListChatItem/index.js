@@ -7,6 +7,7 @@ import { fetchUserAttributes } from "aws-amplify/auth";
 
 const ListChatItem = (props) => {
     const {chatRoom} = props;
+    console.log(chatRoom.LastMessage);
     const [user, setUser] = useState(null);
 
 
@@ -15,7 +16,6 @@ const ListChatItem = (props) => {
 
             const authUser = await fetchUserAttributes();
             // Loop through chat.users.items and find a user that is not us (Authenticated user)
-            console.log(chatRoom.users.items);
             const userItem = chatRoom.users.items.find(
               (item) => item.user.id !== authUser.sub,
             );
@@ -47,7 +47,7 @@ const ListChatItem = (props) => {
                         <Text
                             numberOfLines={2}
                             style={styles.lastMessage}>
-                            {chatRoom?.lastMessage}
+                            {chatRoom?.LastMessage?.text}
 
                         </Text>
                     </View>
@@ -55,7 +55,7 @@ const ListChatItem = (props) => {
                 </View>
 
                 <Text style={styles.time}>
-                    {chatRoom?.lastMessage && moment(chatRoom.lastMessage?.createdAt).format("DD/MM/YYYY")}
+                    {chatRoom?.LastMessage && moment(chatRoom?.LastMessage?.createdAt).format("DD/MM/YYYY")}
                 </Text>
             </View>
         </TouchableWithoutFeedback

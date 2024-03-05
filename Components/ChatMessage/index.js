@@ -1,32 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {Text, View} from "react-native";
 import styles from "../ChatMessage/styles";
 import moment from "moment";
+import { generateClient } from "aws-amplify/api";
+import { fetchUserAttributes } from "aws-amplify/auth";
+const client = generateClient();
 
-const ChatMessage = (props) => {
-
-    const {message} = props;
-
-    const isMyMessage = () => {
-        return message.user.id === 'u1';
+const ChatMessage = ( {message}) => {
+    const [isMe,setIsMe]=useState(false)
+  useEffect(() => {
+    const isMyMessage = async () => {
+      const authUser = await fetchUserAttributes();
+      setIsMe( message?.userID === authUser.sub);
     }
+    isMyMessage();
+  }, []);
 
     return (
-
         <View style={styles.container}>
             <View
                 style={[
                     styles.messageBox, {
-                        backgroundColor: isMyMessage() ? '#DCF8C5' : 'white',
-                        marginLeft: isMyMessage() ? 50 : 0,
-                        marginRight: isMyMessage() ? 0 : 50,
+                        backgroundColor: isMe ? '#DCF8C5' : 'white',
+                        marginLeft: isMe ? 50 : 0,
+                        marginRight: isMe ? 0 : 50,
                     }
                 ]}
             >
-                {!isMyMessage() &&
-                    <Text style={styles.name}>{message.user.name}</Text>
+                {isMe &&
+                    <Text style={styles.name}>{message?.user?.name}</Text>
                 }
-                <Text style={styles.message}>{message.content}</Text>
+                <Text style={styles.message}>{message?.text}</Text>
                 <Text style={styles.time}>{moment(message.createdAt).fromNow()}</Text>
             </View>
         </View>
