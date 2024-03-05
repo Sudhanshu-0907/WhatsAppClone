@@ -6,9 +6,32 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Entypo from "react-native-vector-icons/Entypo";
 import Fontisto from "react-native-vector-icons/Fontisto";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { listChatRooms } from "../../Screen/ChatScreen/query";
+import { generateClient } from "aws-amplify/api";
+import { fetchUserAttributes } from "aws-amplify/auth";
+import {createMessage} from  '../../src/graphql/mutations'
+const client = generateClient();
 
-const InputBox = () => {
+const InputBox = (props) => {
+
     const [message, setMessage] = useState('');
+    const onSend =async ()=>{
+
+        const authUser = await fetchUserAttributes();
+        const newMessage = {
+            chatroomID: props.chatRoomId,
+            text:message,
+            userID: authUser.sub,
+        };
+
+        const newMessageData = await client.graphql(({
+            query:createMessage,
+            variables:{
+                input: newMessage
+            }
+        }))
+        setMessage("");
+    }
 
     return (
         <KeyboardAvoidingView
@@ -28,7 +51,7 @@ const InputBox = () => {
                     <Entypo name="attachment" size={24} color="grey" style={styles.icon}/>
                     {!message && <Fontisto name="camera" size={24} color="grey" style={styles.icon}/>}
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onSend}>
                     <View style={styles.buttonContainer}>
                         {!message
                             ?

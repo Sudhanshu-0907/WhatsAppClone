@@ -9,6 +9,7 @@ import InputBox from "../Components/InputBox";
 
 const ChatRoomScreen = () => {
     const route = useRoute();
+    const chatRoomId= route.params.id;
     return (
         <ImageBackground
             style={{flex: 1}}
@@ -19,8 +20,8 @@ const ChatRoomScreen = () => {
                 renderItem={({item}) => <ChatMessage message={item}/>}
                 inverted
             />
-            <InputBox/>
-        </ImageBackground>
+            <InputBox chatRoomId={chatRoomId}/>
+        </ImageBackground >
     );
 }
 export default ChatRoomScreen;

@@ -19,7 +19,6 @@ const ListChatItem = (props) => {
             const userItem = chatRoom.users.items.find(
               (item) => item.user.id !== authUser.sub,
             );
-            // console.log(userItem);
             setUser(userItem?.user);
         };
 
