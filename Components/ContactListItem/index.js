@@ -5,6 +5,7 @@ import {useNavigation} from "@react-navigation/native";
 import {generateClient} from 'aws-amplify/api'
 import {createChatRoom,createUserChatRoom} from '../../src/graphql/mutations'
 import { fetchUserAttributes } from "aws-amplify/auth";
+import { getCommonChatRoomWithUser } from "../../src/services/ChatRoomServices";
 
 const client = generateClient();
 
@@ -16,6 +17,15 @@ const ContactListItem = props => {
     const onClick = React.useCallback(async () => {
 
        try{
+           const existingChatRoom = await getCommonChatRoomWithUser(user.id)
+            if(existingChatRoom){
+                navigation.navigate('ChatRoom',{
+                    id:existingChatRoom.id,
+                    name: user.name
+                })
+                return
+            }
+
            const  newChatRoomData = await client.graphql({
                query:createChatRoom,
                variables:{

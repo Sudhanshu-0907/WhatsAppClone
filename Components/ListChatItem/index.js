@@ -1,15 +1,30 @@
-import React from "react";
+import React ,{useState,useEffect}from "react";
 import {Image, Text, TouchableWithoutFeedback, View} from "react-native";
 import styles from "./style";
 import moment from "moment";
 import {useNavigation} from "@react-navigation/native";
+import { fetchUserAttributes } from "aws-amplify/auth";
 
 const ListChatItem = (props) => {
     const {chatRoom} = props;
-    console.log(chatRoom,'sud');
+    const [user, setUser] = useState(null);
 
 
-    const user = chatRoom.users.items[1].user;
+    useEffect(() => {
+        const fetchUser = async () => {
+
+            const authUser = await fetchUserAttributes();
+            // Loop through chat.users.items and find a user that is not us (Authenticated user)
+            console.log(chatRoom.users.items);
+            const userItem = chatRoom.users.items.find(
+              (item) => item.user.id !== authUser.sub,
+            );
+            // console.log(userItem);
+            setUser(userItem?.user);
+        };
+
+        fetchUser();
+    }, []);
 
     const navigation = useNavigation();
 
