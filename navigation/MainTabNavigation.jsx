@@ -3,7 +3,7 @@ import Colors from "../Constant/Color";
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import { Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import Fontisto from "react-native-vector-icons/Fontisto";
-import ChatScreen from "../Screen/ChatScreen";
+import ChatScreen from "../Screen/ChatScreen/ChatScreen";
 import { signOut } from 'aws-amplify/auth';
 
 async function handleSignOut() {

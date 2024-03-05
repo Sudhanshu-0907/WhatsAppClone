@@ -6,14 +6,17 @@ import {useNavigation} from "@react-navigation/native";
 
 const ListChatItem = (props) => {
     const {chatRoom} = props;
-    const user = chatRoom.users[1];
+    console.log(chatRoom,'sud');
+
+
+    const user = chatRoom.users.items[1].user;
 
     const navigation = useNavigation();
 
     const onClick = () => {
         navigation.navigate('ChatRoom', {
-            id: chatRoom.id,
-            name: user.name
+            id: chatRoom?.id,
+            name: user?.name
         })
     }
 
@@ -23,14 +26,14 @@ const ListChatItem = (props) => {
         >
             <View style={styles.container}>
                 <View style={styles.lefContainer}>
-                    <Image source={{uri: user.imageUri}} style={styles.avatar}/>
+                    <Image source={{uri: user?.image}} style={styles.avatar}/>
 
                     <View style={styles.midContainer}>
-                        <Text style={styles.username}>{user.name}</Text>
+                        <Text style={styles.username}>{user?.name}</Text>
                         <Text
                             numberOfLines={2}
                             style={styles.lastMessage}>
-                            {chatRoom.lastMessage.content}
+                            {chatRoom?.lastMessage}
 
                         </Text>
                     </View>
@@ -38,10 +41,11 @@ const ListChatItem = (props) => {
                 </View>
 
                 <Text style={styles.time}>
-                    {chatRoom.lastMessage && moment(chatRoom.lastMessage.createdAt).format("DD/MM/YYYY")}
+                    {chatRoom?.lastMessage && moment(chatRoom.lastMessage?.createdAt).format("DD/MM/YYYY")}
                 </Text>
             </View>
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback
+        >
     )
 }
 export default ListChatItem;

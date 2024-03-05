@@ -1,19 +1,59 @@
-import React from "react";
-import {Image, Text, TouchableWithoutFeedback, View} from "react-native";
+import React, { useCallback } from "react";
+import { Image, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import styles from "./style";
 import {useNavigation} from "@react-navigation/native";
+import {generateClient} from 'aws-amplify/api'
+import {createChatRoom,createUserChatRoom} from '../../src/graphql/mutations'
+import { fetchUserAttributes } from "aws-amplify/auth";
+
+const client = generateClient();
 
 const ContactListItem = props => {
     const {user} = props;
 
     const navigation = useNavigation();
 
-    const onClick = () => {
+    const onClick = React.useCallback(async () => {
 
-    }
+       try{
+           const  newChatRoomData = await client.graphql({
+               query:createChatRoom,
+               variables:{
+                   input:{}
+               }
+           })
+           if (!newChatRoomData.data?.createChatRoom){
+               console.log("Error creating chat error");
+           }
+
+           const newChatRoom =newChatRoomData.data?.createChatRoom;
+
+           await  client.graphql({
+               query:createUserChatRoom,
+               variables:{
+                   input:{chatRoomId:newChatRoom.id,userId:user.id}
+               }}
+           )
+
+           const authUser = await fetchUserAttributes();
+           await  client.graphql({
+               query:createUserChatRoom,
+               variables:{
+                   input:{chatRoomId:newChatRoom.id,userId:authUser.sub}
+               }}
+           )
+
+           navigation.navigate('ChatRoom',{
+               id:newChatRoom.id,
+               name: user.name
+           })
+       }catch (e){
+           console.log(e);
+       }
+    })
 
     return (
-        <TouchableWithoutFeedback
+        <TouchableOpacity
             onPress={onClick}
         >
             <View style={styles.container}>
@@ -34,7 +74,7 @@ const ContactListItem = props => {
 
 
             </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
     )
 }
 export default ContactListItem;
