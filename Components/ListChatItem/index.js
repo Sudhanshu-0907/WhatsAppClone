@@ -4,10 +4,17 @@ import styles from './style';
 import moment from 'moment';
 import {useNavigation} from '@react-navigation/native';
 import {fetchUserAttributes} from 'aws-amplify/auth';
+import {listMessagesByChatRoom} from '../../src/graphql/queries';
+import {
+  onCreateMessage,
+  onUpdateChatRoom,
+} from '../../src/graphql/subscriptions';
+import {generateClient} from 'aws-amplify/api';
 
 const ListChatItem = props => {
   const {chatRoom} = props;
   const [user, setUser] = useState(null);
+  const client = generateClient();
 
   useEffect(() => {
     const fetchUser = async () => {
