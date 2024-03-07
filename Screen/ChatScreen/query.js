@@ -1,29 +1,29 @@
 export const listChatRooms = /* GraphQL */ `
-    query GetUser($id: ID!) {
-        getUser(id: $id) {
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      ChatRooms {
+        items {
+          chatRoom {
             id
-            ChatRooms {
-                items {
-                    chatRoom {
-                        id
-                        LastMessage {
-                            id
-                            createdAt
-                            text
-                        }
-                        users {
-                            items {
-                                user {
-                                    id
-                                    image
-                                    name
-                                }
-                            }
-                        }
-                    }
-                }
+            updatedAt
+            LastMessage {
+              id
+              createdAt
+              text
             }
+            users {
+              items {
+                user {
+                  id
+                  image
+                  name
+                }
+              }
+            }
+          }
         }
+      }
     }
-
+  }
 `;
