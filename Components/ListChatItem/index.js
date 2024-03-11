@@ -15,12 +15,13 @@ const ListChatItem = props => {
   const {chatRoom} = props;
   const [user, setUser] = useState(null);
   const client = generateClient();
+  const [chatRooms, setChatRooms] = useState(chatRoom);
 
   useEffect(() => {
     const fetchUser = async () => {
       const authUser = await fetchUserAttributes();
       // Loop through chat.users.items and find a user that is not us (Authenticated user)
-      const userItem = chatRoom.users.items.find(
+      const userItem = chatRooms.users.items.find(
         item => item.user.id !== authUser.sub,
       );
       setUser(userItem?.user);
@@ -29,11 +30,33 @@ const ListChatItem = props => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    const fetch = () => {
+      const subscription = client
+        .graphql({
+          query: onUpdateChatRoom,
+          filter: {id: {eq: chatRoom.id}},
+        })
+        .subscribe({
+          next: value => {
+            setChatRooms(cr => ({
+              ...(cr || {}),
+              ...value?.data.onUpdateChatRoom,
+            }));
+          },
+          error: err => console.warn(err),
+        });
+
+      return () => subscription.unsubscribe();
+    };
+    fetch();
+  }, [chatRoom.id]);
+
   const navigation = useNavigation();
 
   const onClick = () => {
     navigation.navigate('ChatRoom', {
-      id: chatRoom?.id,
+      id: chatRooms?.id,
       name: user?.name,
     });
   };
@@ -47,14 +70,14 @@ const ListChatItem = props => {
           <View style={styles.midContainer}>
             <Text style={styles.username}>{user?.name}</Text>
             <Text numberOfLines={2} style={styles.lastMessage}>
-              {chatRoom?.LastMessage?.text}
+              {chatRooms?.LastMessage?.text}
             </Text>
           </View>
         </View>
 
         <Text style={styles.time}>
-          {chatRoom?.LastMessage &&
-            moment(chatRoom?.LastMessage?.createdAt).fromNow()}
+          {chatRooms?.LastMessage &&
+            moment(chatRooms?.LastMessage?.createdAt).fromNow()}
         </Text>
       </View>
     </TouchableWithoutFeedback>

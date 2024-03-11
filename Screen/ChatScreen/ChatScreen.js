@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, View} from 'react-native';
-import ChatListItem from '../../Components/ListChatItem';
+import ListChatItem from '../../Components/ListChatItem';
 // import chatRoom from "../../data/ChatRoom";
 import NewMessageButton from '../../Components/NewMessageButton';
 import {listChatRooms} from './query';
@@ -45,7 +45,7 @@ const ChatScreen = () => {
       <FlatList
         style={{width: '100%'}}
         data={chatRoom}
-        renderItem={({item}) => <ChatListItem chatRoom={item.chatRoom} />}
+        renderItem={({item}) => <ListChatItem chatRoom={item.chatRoom} />}
         keyExtractor={item => item.id}
         refreshing={isLoading}
         onRefresh={fetchChatRoom}
