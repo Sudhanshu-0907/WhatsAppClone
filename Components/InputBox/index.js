@@ -37,15 +37,15 @@ const InputBox = ({chatRoom}) => {
     setMessage('');
 
     //update last message
-    // await client.graphql({
-    //   query: updateChatRoom,
-    //   variables: {
-    //     input: {
-    //       id: chatRoom.id,
-    //       chatRoomLastMessageId: newMessageData.data.createMessage.id,
-    //     },
-    //   },
-    // });
+    await client.graphql({
+      query: updateChatRoom,
+      variables: {
+        input: {
+          id: chatRoom.id,
+          chatRoomLastMessageId: newMessageData.data.createMessage.id,
+        },
+      },
+    });
   };
 
   return (

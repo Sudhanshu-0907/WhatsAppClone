@@ -9,7 +9,6 @@ import {getChatRoom, listMessagesByChatRoom} from '../src/graphql/queries';
 import {fetchUserAttributes} from 'aws-amplify/auth';
 import {generateClient} from 'aws-amplify/api';
 import {onCreateMessage, onUpdateChatRoom} from '../src/graphql/subscriptions';
-import {updateChatRoom} from '../src/graphql/mutations';
 
 const ChatRoomScreen = () => {
   const [chatRoom, setChatRoom] = useState(null);
@@ -78,17 +77,8 @@ const ChatRoomScreen = () => {
           },
         })
         .subscribe({
-          next: async ({data}) => {
+          next: ({data}) => {
             setMessages(m => [data?.onCreateMessage, ...m]);
-            await client.graphql({
-              query: updateChatRoom,
-              variables: {
-                input: {
-                  id: chatRoomId,
-                  chatRoomLastMessageId: data.onCreateMessage.id,
-                },
-              },
-            });
           },
           error: err => console.warn(err),
         });
