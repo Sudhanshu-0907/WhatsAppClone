@@ -72,7 +72,7 @@ const ContactListItem = props => {
     <TouchableOpacity onPress={onClick}>
       <View style={styles.container}>
         <View style={styles.lefContainer}>
-          <Image source={{uri: user.imageUri}} style={styles.avatar} />
+          <Image source={{uri: user.image}} style={styles.avatar} />
 
           <View style={styles.midContainer}>
             <Text style={styles.username}>{user.name}</Text>
