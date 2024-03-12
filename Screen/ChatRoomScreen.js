@@ -9,6 +9,7 @@ import {getChatRoom, listMessagesByChatRoom} from '../src/graphql/queries';
 import {fetchUserAttributes} from 'aws-amplify/auth';
 import {generateClient} from 'aws-amplify/api';
 import {onCreateMessage, onUpdateChatRoom} from '../src/graphql/subscriptions';
+import {updateChatRoom} from '../src/graphql/mutations';
 
 const ChatRoomScreen = () => {
   const [chatRoom, setChatRoom] = useState(null);
@@ -34,13 +35,15 @@ const ChatRoomScreen = () => {
       const subscription = client
         .graphql({
           query: onUpdateChatRoom,
-          filter: {id: {eq: chatRoomId}},
+          variables: {
+            filter: {id: {eq: chatRoomId}},
+          },
         })
         .subscribe({
-          next: value => {
+          next: ({data}) => {
             setChatRoom(cr => ({
               ...(cr || {}),
-              ...value?.data.onUpdateChatRoom,
+              ...data.onUpdateChatRoom,
             }));
           },
           error: err => console.warn(err),
@@ -70,11 +73,22 @@ const ChatRoomScreen = () => {
       const subscription = client
         .graphql({
           query: onCreateMessage,
-          filter: {chatroomID: {eq: chatRoomId}},
+          variables: {
+            filter: {chatroomID: {eq: chatRoomId}},
+          },
         })
         .subscribe({
-          next: value => {
-            setMessages(m => [value?.data?.onCreateMessage, ...m]);
+          next: async ({data}) => {
+            setMessages(m => [data?.onCreateMessage, ...m]);
+            await client.graphql({
+              query: updateChatRoom,
+              variables: {
+                input: {
+                  id: chatRoomId,
+                  chatRoomLastMessageId: data.onCreateMessage.id,
+                },
+              },
+            });
           },
           error: err => console.warn(err),
         });

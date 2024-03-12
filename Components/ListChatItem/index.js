@@ -10,6 +10,7 @@ import {
   onUpdateChatRoom,
 } from '../../src/graphql/subscriptions';
 import {generateClient} from 'aws-amplify/api';
+import {updateChatRoom} from '../../src/graphql/mutations';
 
 const ListChatItem = props => {
   const {chatRoom} = props;
@@ -31,17 +32,19 @@ const ListChatItem = props => {
   }, []);
 
   useEffect(() => {
-    const fetch = () => {
-      const subscription = client
+    const fetch = async () => {
+      const subscription = await client
         .graphql({
           query: onUpdateChatRoom,
-          filter: {id: {eq: chatRoom.id}},
+          variables: {
+            filter: {id: {eq: chatRoom.id}},
+          },
         })
         .subscribe({
-          next: value => {
+          next: ({data}) => {
             setChatRooms(cr => ({
               ...(cr || {}),
-              ...value?.data.onUpdateChatRoom,
+              ...data.onUpdateChatRoom,
             }));
           },
           error: err => console.warn(err),
